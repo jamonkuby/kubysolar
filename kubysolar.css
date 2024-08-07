@@ -1,6 +1,7 @@
   /* Git push test */
   
   .heading-primary, .heading-white, .heading-black {
+    background-color: pink; /* delete me */
   	margin-bottom: 40px;
   }
   .heading-margin-small {
