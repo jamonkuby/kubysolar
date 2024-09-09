@@ -1,0 +1,85 @@
+<script>
+	window.addEventListener('DOMContentLoaded', (event) => {
+
+		/* Beginning of custom Testimonial Slider code */
+		let activeTestimonialSliderIndex = 1;
+		const totalTestimonialSlides = +$('#testimonial-slider').attr('total-slides');
+		const previousTestimonialBtn = $('#testimonial-slider .w-slider-arrow-left');
+		const nextTestimonialBtn = $('#testimonial-slider .w-slider-arrow-right');
+
+		function setActiveTestimonialSliderIndex(index) {
+			activeTestimonialSliderIndex = index;
+			updateTestimonialButtonData(index);
+			console.info('Active testimonial slider index: ', activeTestimonialSliderIndex);
+		}
+
+		function updateTestimonialButtonData(index) {
+			const previousIndex = activeTestimonialSliderIndex === 1 ? totalTestimonialSlides : activeTestimonialSliderIndex - 1;
+			const nextIndex = activeTestimonialSliderIndex === totalTestimonialSlides ? 1 : activeTestimonialSliderIndex + 1;
+			$('#testimonial-slider .slider-left').attr('data-previous', previousIndex);
+			$('#testimonial-slider .slider-right').attr('data-next', nextIndex);
+
+			$('#testimonial-slider [id^="testimonial-btn-"]').removeClass('selected');
+			$('#testimonial-slider #testimonial-btn-' + index).addClass('selected');
+		}
+		$('#testimonial-slider')
+			.on('click', '.slider-left', function () {
+				const newIndex = +$(this).attr('data-previous');
+				previousTestimonialBtn.trigger('tap');
+				setActiveTestimonialSliderIndex(newIndex);
+			})
+			.on('click', '.slider-right', function () {
+				const newIndex = +$(this).attr('data-next');
+				nextTestimonialBtn.trigger('tap');
+				setActiveTestimonialSliderIndex(newIndex);
+			})
+			.on('click', '[id^="testimonial-btn-"]', function () {
+				const newIndex = +$(this).attr('data-index');
+				$('#testimonial-slider div:nth-child(' + newIndex + ')').trigger('tap');
+				setActiveTestimonialSliderIndex(newIndex);
+			});
+		/* End of custom Testimonial Slider code */
+
+		/* Beginning of custom Installation Steps Slider code */
+		let activeInstallationProcessSliderIndex = 1;
+		let slideRotation;
+		const intervalAttribute = +$('#installation-process-slider').attr('data-slider-interval');
+		const slideDuration = intervalAttribute ? +intervalAttribute : 8000; // default 8000
+		const totalInstallationProcessSlides = +$('#installation-process-slider').attr('data-total-slides');
+
+		resetRotationTime();
+
+		function setActiveInstallationProcessSliderIndex(index) {
+			activeInstallationProcessSliderIndex = index;
+			updateInstallationProcessButtonData(index);
+			console.info('Active installation process slider index: ', activeInstallationProcessSliderIndex);
+		}
+
+		function resetRotationTime() { // Clear old interval and create new one
+			if (slideRotation) {
+				clearInterval(slideRotation);
+			}
+			slideRotation = setInterval(function () {
+				const nextIndex = activeInstallationProcessSliderIndex === totalInstallationProcessSlides ? 1 : activeInstallationProcessSliderIndex + 1;
+				$('#installation-process-triggers #installation-process-btn-' + nextIndex).trigger('tap');
+			}, slideDuration);
+		}
+
+		function updateInstallationProcessButtonData(index) {
+			$('#installation-process-triggers [id^="installation-process-btn-"]').removeClass(['selected', 'previous']);
+			$('#installation-process-triggers #installation-process-btn-' + index).addClass('selected');
+			for (let i = 1; i < index; i++) {
+				$('#installation-process-triggers #installation-process-btn-' + i).addClass('previous');
+			}
+		}
+
+		$('#installation-process-triggers')
+			.on('click', '[id^="installation-process-btn-"]', function () {
+				const newIndex = +$(this).attr('data-index');
+				$('#installation-process-slider div:nth-child(' + newIndex + ')').trigger('tap');
+				setActiveInstallationProcessSliderIndex(newIndex);
+				resetRotationTime();
+			});
+		/* End of custom Installation Steps Slider code */
+	});
+</script>
