@@ -1,0 +1,30 @@
+<script>
+	window.addEventListener('DOMContentLoaded', (event) => {
+		let activeHorizontalSliderIndex = 1;
+		const totalHorizontalSliderSlides = +$('#horizontal-slider').attr('total-slides');
+		const previousHorizontalSliderBtn = $('#horizontal-slider .w-slider-arrow-left');
+		const nextHorizontalSliderBtn = $('#horizontal-slider .w-slider-arrow-right');
+
+		function setActiveHorizontalSliderIndex(index) {
+			activeHorizontalSliderIndex = index;
+			updateHorizontalSliderButtonData(index);
+			console.info('Active horizontal slider index: ', activeHorizontalSliderIndex);
+		}
+
+		function updateHorizontalSliderButtonData(index) {
+			const previousIndex = activeHorizontalSliderIndex === 1 ? totalHorizontalSliderSlides : activeHorizontalSliderIndex - 1;
+			const nextIndex = activeHorizontalSliderIndex === totalHorizontalSliderSlides ? 1 : activeHorizontalSliderIndex + 1;
+			$('#horizontal-slider .slider-left').attr('data-previous', previousIndex);
+			$('#horizontal-slider .slider-right').attr('data-next', nextIndex);
+
+			$('#horizontal-slider-triggers [id^="horizontal-slider-btn-"]').removeClass('selected');
+			$('#horizontal-slider-triggers #horizontal-slider-btn-' + index).addClass('selected');
+		}
+		$('#horizontal-slider-triggers')
+			.on('click', '[id^="horizontal-slider-btn-"]', function () {
+				const newIndex = +$(this).attr('data-index');
+				$('#horizontal-slider div:nth-child(' + newIndex + ')').trigger('tap');
+				setActiveHorizontalSliderIndex(newIndex);
+			});
+	});
+</script>

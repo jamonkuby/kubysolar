@@ -1,95 +1,102 @@
 <!-- <link rel="stylesheet" type="text/css" href="https://jamonkuby.github.io/kubysolar/kubysolar.css" /> -->
 <div id="dynamic-backdrop"></div>
 <script>
-  console.log("%cKuby Renewable Energy", "color: #d9551f; font-family:Bebas Neue Pro Expanded, sans-serif; font-size: 30px; background:linear-gradient(#73BF42, #73BF42) bottom left no-repeat; background-size:50% 3px; margin-bottom: 10px;");
+  console.log("%cKuby Renewable Energy","color: #d9551f; font-family:Bebas Neue Pro Expanded, sans-serif; font-size: 30px; background:linear-gradient(#73BF42, #73BF42) bottom left no-repeat; background-size:50% 3px; margin-bottom: 10px;");
+
 
   // Fix for console warning
   if (!window._webflow) {
-    window._webflow = [];
-  }
-
+   	window._webflow = [];
+   }
+  
   Webflow.push(function () {
-    Webflow.scroll.on(function () {
+    Webflow.scroll.on(function() {
       if (window.scrollY > 800) {
         $('#navigation').addClass('sticky-nav');
       } else {
         $('#navigation').removeClass('sticky-nav');
       }
     })
-  });
+	});
+  
+    
+    var Webflow = Webflow || [];
+let $body = $(document.body);
+let scrollPosition = 0;
 
 
-  var Webflow = Webflow || [];
-  let $body = $(document.body);
-  let scrollPosition = 0;
-
-  $('[scroll=disable]').on('click', function () {
-    console.info('Disable scroll');
-    let oldWidth = $body.innerWidth();
-    scrollPosition = window.pageYOffset;
-    $body.css('overflow', 'hidden');
-    $body.css('position', 'fixed');
-    $body.css('top', `-${scrollPosition}px`);
-    $body.width(oldWidth);
-  });
-  $('[scroll=enable]').on('click', function () {
-    if ($body.css('overflow') != 'hidden') { scrollPosition = window.pageYOffset; }
-    console.info('Enable scroll');
-    $body.css('overflow', '');
-    $body.css('position', '');
-    $body.css('top', '');
-    $body.width('');
-    $(window).scrollTop(scrollPosition);
-  });
-  $('[scroll=both]').on('click', function () {
-    if ($body.css('overflow') != 'hidden') {
-      console.info('Disable scroll');
-      let oldWidth = $body.innerWidth();
-      scrollPosition = window.pageYOffset;
-      $body.css('overflow', 'hidden');
-      $body.css('position', 'fixed');
-      $body.css('top', `-${scrollPosition}px`);
-      $body.width(oldWidth);
-    } else {
-      console.info('Enable scroll');
-      $body.css('overflow', '');
-      $body.css('position', '');
-      $body.css('top', '');
-      $body.width('');
-      $(window).scrollTop(scrollPosition);
-    }
-  });
-
-  $('#back-to-main-nav').on('click', function () {
-    console.info('Back to main nav');
-    $('#services-menu-toggle').click();
-  })
-
-  // Set styling based on component attributes
-  const heroImage = document.querySelector('.hero-image-full-width');
-
-  if (heroImage && heroImage.hasAttribute('hero-image-position')) {
-    const positionValue = heroImage.getAttribute('hero-image-position');
-    const [xPercent, yPercent] = positionValue.split('-');
-
-    heroImage.style.objectPosition = `${xPercent}% ${yPercent}%`;
-  }
-  // End of set styling based on component attributes
-
-
-  const backdrop = document.getElementById('dynamic-backdrop');
-  const dropdownLinks = document.querySelectorAll('.nav-item-dropdown-link');
-
-  dropdownLinks.forEach(link => {
-    link.addEventListener('mouseenter', function () {
-      backdrop.style.opacity = 1;
-      backdrop.style.zIndex = 1000;
+    $('[scroll=disable]').on('click', function () {
+    		console.info('Disable scroll');
+        let oldWidth = $body.innerWidth();
+        scrollPosition = window.pageYOffset;
+        $body.css('overflow', 'hidden');
+        $body.css('position', 'fixed');
+        $body.css('top', `-${scrollPosition}px`);
+        $body.width(oldWidth);
     });
-
-    link.addEventListener('mouseleave', function () {
-      backdrop.style.opacity = 0;
-      backdrop.style.zIndex = -106;
+    $('[scroll=enable]').on('click', function () {
+        if ($body.css('overflow') != 'hidden') { scrollPosition = window.pageYOffset; }
+        console.info('Enable scroll');
+        $body.css('overflow', '');
+        $body.css('position', '');
+        $body.css('top', '');
+        $body.width('');
+        $(window).scrollTop(scrollPosition);
     });
-  });
+    $('[scroll=both]').on('click', function () {
+        if ($body.css('overflow') != 'hidden') {
+       			console.info('Disable scroll');
+            let oldWidth = $body.innerWidth();
+            scrollPosition = window.pageYOffset;
+            $body.css('overflow', 'hidden');
+            $body.css('position', 'fixed');
+            $body.css('top', `-${scrollPosition}px`);
+            $body.width(oldWidth);
+        } else {
+        		console.info('Enable scroll');
+            $body.css('overflow', '');
+            $body.css('position', '');
+            $body.css('top', '');
+            $body.width('');
+            $(window).scrollTop(scrollPosition);
+        }
+    });
+    
+    $('#back-to-main-nav').on('click', function() {
+    	console.info('Back to main nav');
+    	$('#services-menu-toggle').click();
+    })
+    
+    // Set styling based on component attributes
+    const images = document.querySelectorAll('[image-position]');
+
+    images.forEach(image => {
+      // Check if the element exists (this check is redundant but kept for consistency)
+      if (image) {
+        const positionValue = image.getAttribute('image-position');
+        const [xPercent, yPercent] = positionValue.split('-');
+
+        image.style.objectPosition = `${xPercent}% ${yPercent}%`;
+      }
+    });
+    // End of set styling based on component attributes
+       
+
+    const backdrop = document.getElementById('dynamic-backdrop');
+    const dropdownLinks = document.querySelectorAll('.nav-item-dropdown-link');
+
+    dropdownLinks.forEach(link => {
+      link.addEventListener('mouseenter', function () {
+        backdrop.style.opacity = 1;
+        backdrop.style.zIndex = 1000;
+      });
+
+      link.addEventListener('mouseleave', function () {
+        backdrop.style.opacity = 0;
+        backdrop.style.zIndex = -106;
+      });
+    });
+   
 
 </script>
+
