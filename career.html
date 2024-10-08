@@ -1,0 +1,8 @@
+<script>
+	window.addEventListener('DOMContentLoaded', (event) => {
+  	if ($( "#apply-btn" )){
+    	const subject = '{{wf {&quot;path&quot;:&quot;name&quot;,&quot;type&quot;:&quot;PlainText&quot;\} }} Application';
+    	$("#apply-btn").attr('href', $("#apply-btn").attr('href') + '?Subject=' + encodeURIComponent(subject)); 
+    }
+  });
+</script>

@@ -44,8 +44,9 @@
 		let activeInstallationProcessSliderIndex = 1;
 		let slideRotation;
 		const intervalAttribute = +$('#installation-process-slider').attr('data-slider-interval');
-		const slideDuration = intervalAttribute ? +intervalAttribute : 8000; // default 8000
-		const totalInstallationProcessSlides = +$('#installation-process-slider').attr('data-total-slides');
+		const totalInstallationProcessSlidesAttribute = +$('#installation-process-slider').attr('data-total-slides');
+		const slideDuration = intervalAttribute ? intervalAttribute : 9000; // default 9000
+		const totalInstallationProcessSlides = totalInstallationProcessSlidesAttribute ? totalInstallationProcessSlidesAttribute : 4;
 
 		resetRotationTime();
 

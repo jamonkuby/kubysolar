@@ -1,0 +1,76 @@
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        let initialShowBattery = true; // true | false 
+        let showBattery = false; // true | false
+        let dayTime = 'export'; // 'export' | 'import' | 'night'
+
+        Webflow.push(function() {
+            window.addEventListener('resize', function() {
+                window.Webflow.require("lottie").lottie.resize();
+            });
+            $('#collapsible-cards')
+                .on('click', '.collapsible-card-header', function () {
+                    if ($(this).parents('.expanded').length) {
+                  	    $('div.expanded').removeClass('expanded');
+                    } else {
+                  	    $('div.expanded').removeClass('expanded');
+                        $(this).parent().addClass('expanded');
+                  	    $(this).siblings('.collapsible-card-content-wrapper').addClass('expanded');
+                    }
+                })
+
+            $('#battery-switch').on('click', function () {
+                $('#battery-switch').toggleClass('active');
+                showBattery = !showBattery;
+                if (showBattery){
+                    $('.collapsible-card.energy-storage-card').show();
+                } else {
+                    $('.collapsible-card.energy-storage-card').hide();
+                }
+                setActiveAnimation(showBattery, dayTime);
+            })
+
+            $('.infographic-toggle-button').on('click', function () {
+                $('.infographic-toggle-button').removeClass('selected');
+                $(this).addClass('selected');
+                let clickedElement = $(this);
+
+                if (clickedElement.hasClass('export')){
+                    dayTime = 'export';
+                } else if (clickedElement.hasClass('import')) {
+                    dayTime = 'import';
+                } else if (clickedElement.hasClass('night')) {
+                    dayTime = 'night';
+                }
+
+                setActiveAnimation(showBattery, dayTime);
+            })
+        
+            setInitialData();
+          
+            function setActiveAnimation(showBattery, dayTime) {
+                let setActiveClass = '';
+
+                if (showBattery) {
+                    setActiveClass += 'battery-';
+                }
+                setActiveClass += dayTime;
+                
+                console.info(setActiveClass);
+
+                if ($('#' + setActiveClass).length) {
+                    $('.how-solar-works-animation').hide();
+                    $('#' + setActiveClass).show();
+                }
+            }
+
+            function setInitialData() {
+                if (initialShowBattery) {
+                    document.getElementById('battery-switch').click(); 
+                } else {
+                    setActiveAnimation(showBattery, dayTime);
+                }
+            };
+        });
+    });
+</script>
