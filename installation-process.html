@@ -1,0 +1,52 @@
+<script>
+    var Webflow = Webflow || [];
+
+    Webflow.push(function() {
+        /* Beginning of custom Installation Steps Slider code */
+        let activeInstallationProcessSliderIndex = 1;
+        
+        let slideRotation;
+        const intervalAttribute = +$('#installation-process-slider').attr('data-slider-interval');
+        const totalInstallationProcessSlidesAttribute = +$('#installation-process-slider').attr('data-total-slides');
+        const slideDuration = intervalAttribute ? intervalAttribute : 9000; // default 9000
+        const totalInstallationProcessSlides = totalInstallationProcessSlidesAttribute ? totalInstallationProcessSlidesAttribute : 4;
+
+        resetRotationTime();
+
+        function setActiveInstallationProcessSliderIndex(index) {
+            activeInstallationProcessSliderIndex = index;
+            updateInstallationProcessButtonData(index);
+            console.info('Active installation process slider index: ', activeInstallationProcessSliderIndex);
+        }
+
+        function resetRotationTime() { // Clear old interval and create new one
+            if (slideRotation) {
+                clearInterval(slideRotation);
+            }
+            
+            slideRotation = setInterval(function () {
+                const nextIndex = activeInstallationProcessSliderIndex === totalInstallationProcessSlides ? 1 : activeInstallationProcessSliderIndex + 1;
+                $('#installation-process-triggers #installation-process-btn-' + nextIndex).trigger('tap');
+            }, slideDuration);
+        }
+
+        function updateInstallationProcessButtonData(index) {
+            $('#installation-process-triggers [id^="installation-process-btn-"]').removeClass(['selected', 'previous']);
+            $('#installation-process-triggers #installation-process-btn-' + index).addClass('selected');
+
+            for (let i = 1; i < index; i++) {
+                $('#installation-process-triggers #installation-process-btn-' + i).addClass('previous');
+            }
+        }
+
+        $('#installation-process-triggers')
+            .on('click', '[id^="installation-process-btn-"]', function () {
+                const newIndex = +$(this).attr('data-index');
+                console.log(newIndex);
+                console.log($('#installation-process-slider-mask div:nth-child(' + newIndex + ')'));
+                $('#installation-process-slider-mask div:nth-child(' + newIndex + ')').trigger('tap');
+                setActiveInstallationProcessSliderIndex(newIndex);
+                resetRotationTime();
+            });
+    });
+</script>

@@ -1,0 +1,14 @@
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const expandLists = document.querySelectorAll('[expand-on-load]');
+        expandLists.forEach(list => {
+            if (list) {
+                console.log('Expanding list items');
+                const items = list.querySelectorAll('.accordion-item-trigger');
+                items.forEach(item => {
+                    item.click();
+                });
+            }
+        });
+    });
+</script>
